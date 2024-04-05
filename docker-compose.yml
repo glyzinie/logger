@@ -1,0 +1,46 @@
+# Use .env. Only edit this, if you know your stuff.
+services:
+  app:
+    build:
+      context: ./
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - cache
+      - db
+      - setup
+    environment:
+      REDIS_HOST: cache
+      POSTGRES_HOST: db
+      POSTGRES_USER: ${POSTGRES_DB}
+
+  setup:
+    build:
+      context: .
+    command: "npm run setupdb"
+    environment:
+      POSTGRES_USER: ${POSTGRES_DB}
+      POSTGRES_PASSWORD:
+      POSTGRES_HOST: db
+      POSTGRES_DB:
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - cache:/data
+
+  db:
+    image: postgres:16-alpine
+    restart: always
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD:
+      POSTGRES_USER:
+
+volumes:
+  db:
+  cache:
