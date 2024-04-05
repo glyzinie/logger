@@ -15,7 +15,7 @@ pool.on('error', e => {
 })
 
 async function generate() {
-  await pool.query(`CREATE DATABASE IF NOT EXISTS ${process.env.POSTGRES_DB}`) // create db
+  if (!process.env.DOCKER) await pool.query(`CREATE DATABASE ${process.env.POSTGRES_DB}`) // create db
   const loggerDB = new Pool({
     user: process.env.POSTGRES_USER,
     host: process.env.POSTGRES_HOST,
