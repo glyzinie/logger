@@ -19,6 +19,8 @@ services:
     build:
       context: .
     command: "npm run setupdb"
+    depends_on:
+      - db
     environment:
       POSTGRES_USER: ${POSTGRES_DB}
       POSTGRES_PASSWORD:
