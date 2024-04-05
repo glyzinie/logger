@@ -23,6 +23,7 @@ services:
     depends_on:
       - db
     environment:
+      DOCKER: true
       POSTGRES_USER: ${POSTGRES_DB}
       POSTGRES_PASSWORD:
       POSTGRES_HOST: db
