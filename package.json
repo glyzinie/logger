@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "standard",
-    "lint": "node_modules/.bin/eslint . --ext .js"
+    "lint": "node_modules/.bin/eslint . --ext .js",
+    "start": "node index.js",
+    "setupdb": "node src/miscellaneous/generateDB.js"
   },
   "keywords": [
     "logging",
