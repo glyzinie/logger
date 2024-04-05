@@ -19,6 +19,7 @@ services:
     build:
       context: .
     command: "npm run setupdb"
+    restart: on-failure
     depends_on:
       - db
     environment:
