@@ -3,11 +3,11 @@ const { Pool } = require('pg')
 require('dotenv').config()
 
 const pool = new Pool({
-  user: process.env.POSTGRES_USER, // Make sure POSTGRES_USER is a superuser
   host: process.env.POSTGRES_HOST,
-  database: 'template1', // Should exist in all postgres databases by default
-  password: process.env.POSTGRES_PASSWORD,
-  port: 5432
+  port: 5432,
+  database: 'template1',
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD
 })
 
 pool.on('error', e => {
@@ -17,11 +17,11 @@ pool.on('error', e => {
 async function generate() {
   if (!process.env.DOCKER) await pool.query(`CREATE DATABASE ${process.env.POSTGRES_DB}`) // create db
   const loggerDB = new Pool({
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    database: 'logger',
-    password: process.env.PGPASSWORD,
-    port: process.env.PGPORT ?? 5432
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT ?? 5432,
+    database: process.env.POSTGRES_DB,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD
   })
   await loggerDB.query('CREATE TABLE IF NOT EXISTS messages ( id TEXT PRIMARY KEY, author_id TEXT NOT NULL, content TEXT, attachment_b64 TEXT, ts TIMESTAMPTZ )') // establish messages table
   await loggerDB.query('CREATE TABLE IF NOT EXISTS guilds ( id TEXT PRIMARY KEY, owner_id TEXT NOT NULL, ignored_channels TEXT[], disabled_events TEXT[], event_logs JSON, log_bots BOOL, custom_settings JSON )') // establish guilds table

@@ -1,17 +1,17 @@
-# get node
-FROM node:18.5.0-buster-slim
+FROM node:lts-slim AS build
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Get app dependencies
 COPY package*.json ./
 
-# building app
 RUN npm i --omit=dev --verbose
 
-# Bundle app source
+FROM node:lts-alpine
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/node_modules /usr/src/app/node_modules
+
 COPY . .
 
-# start up command for bot
 CMD [ "npm", "start" ]
