@@ -52,7 +52,7 @@ module.exports = {
     if (user && user?.bot && !global.bot.guildSettingsCache[newChannel.guild.id].isLogBots()) return
     if (user) {
       const member = newChannel.guild.members.get(user.id)
-      channelCreateEvent.embeds[0].author.name = `${user.username}#${user.discriminator} ${member && member.nick ? `(${member.nick})` : ''}`
+      channelCreateEvent.embeds[0].author.name = `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`} ${member && member.nick ? `(${member.nick})` : ''}`
       channelCreateEvent.embeds[0].author.icon_url = user.avatarURL
       channelCreateEvent.embeds[0].fields[1].value = `\`\`\`ini\nUser = ${user.id}\nChannel = ${newChannel.id}\`\`\``
     }

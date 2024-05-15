@@ -10,10 +10,10 @@ module.exports = {
       eventName: 'voiceChannelSwitch',
       embeds: [{
         author: {
-          name: `${member.username}#${member.discriminator} ${member.nick ? `(${member.nick})` : ''}`,
+          name: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`} ${member.nick ? `(${member.nick})` : ''}`,
           icon_url: member.avatarURL
         },
-        description: `**${member.username}#${member.discriminator}** ${member.nick ? `(${member.nick})` : ''} moved from <#${oldChannel.id}> (${oldChannel.name}) to <#${channel.id}> (${channel.name}).`,
+        description: `**${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}** ${member.nick ? `(${member.nick})` : ''} moved from <#${oldChannel.id}> (${oldChannel.name}) to <#${channel.id}> (${channel.name}).`,
         fields: [{
           name: 'Current channel they are in',
           value: `<#${channel.id}> (${channel.name})`

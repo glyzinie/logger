@@ -51,7 +51,7 @@ module.exports = {
         eventName: 'guildUpdate',
         embeds: [{
           author: {
-            name: `${user.username}#${user.discriminator} ${member && member.nick ? `(${member.nick})` : ''}`,
+            name: `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`} ${member && member.nick ? `(${member.nick})` : ''}`,
             icon_url: user.avatarURL
           },
           description: 'The guild was updated',

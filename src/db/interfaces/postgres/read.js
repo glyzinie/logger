@@ -42,7 +42,7 @@ async function decryptUserDoc (userDoc) {
 
 async function decryptMessageDoc (message) {
   message.content = aes.decrypt(message.content)
-  if (message.attachment_b64) message.attachment_b64 = aes.decrypt(message.attachment_b64)
+  if (message.attachment_b64) message.attachment_b64 = message.attachment_b64.split("|").map(encrypted_img_url => aes.decrypt(encrypted_img_url)).join("|")
   return message
 }
 

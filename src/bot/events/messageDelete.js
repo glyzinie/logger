@@ -12,7 +12,7 @@ module.exports = {
     const guildSettings = global.bot.guildSettingsCache[message.channel.guild.id]
     if (!guildSettings) await cacheGuild(message.channel.guild.id)
     if (global.bot.guildSettingsCache[message.channel.guild.id].isChannelIgnored(message.channel.id)) return
-    let cachedMessage = await getMessageFromBatch(message.id)
+    let cachedMessage = getMessageFromBatch(message.id)
     if (!cachedMessage) {
       cachedMessage = await getMessageFromDB(message.id)
     }
@@ -33,7 +33,7 @@ module.exports = {
       eventName: 'messageDelete',
       embeds: [{
         author: {
-          name: cachedUser ? `${cachedUser.username}#${cachedUser.discriminator} ${cachedUser && cachedUser.nick ? `(${member.nick})` : ''}` : `Unknown User <@${cachedMessage.author_id}>`,
+          name: cachedUser ? `${cachedUser.username}${cachedUser.discriminator === '0' ? '' : `#${cachedUser.discriminator}`} ${member && member.nick ? `(${member.nick})` : ''}` : `Unknown User <@${cachedMessage.author_id}>`,
           icon_url: cachedUser ? cachedUser.avatarURL : 'https://logger.bot/staticfiles/red-x.png'
         },
         description: `Message deleted in <#${message.channel.id}>`,
@@ -64,6 +64,17 @@ module.exports = {
       name: 'ID',
       value: `\`\`\`ini\nUser = ${cachedMessage.author_id}\nMessage = ${cachedMessage.id}\`\`\``
     })
+
+    if (cachedMessage.attachment_b64) {
+      attachment_b64urls = cachedMessage.attachment_b64.split("|")
+      attachment_b64urls.forEach(
+        (base64url, indx) => messageDeleteEvent.embeds[indx] = {
+          ...messageDeleteEvent.embeds[indx],
+          image: { url: Buffer.from(base64url, "base64url").toString("utf-8") },
+          url: "https://example.com"
+        }
+      )
+    }
     await send(messageDeleteEvent)
   }
 }

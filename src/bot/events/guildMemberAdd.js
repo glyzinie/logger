@@ -10,13 +10,13 @@ module.exports = {
       eventName: 'guildMemberAdd',
       embeds: [{
         author: {
-          name: `${member.username}#${member.discriminator}`,
+          name: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}`,
           icon_url: member.avatarURL
         },
         description: `<@${member.id}> joined `,
         fields: [{
           name: 'Name',
-          value: `${member.username}#${member.discriminator} (${member.id}) ${member.mention}`
+          value: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`} (${member.id}) ${member.mention}`
         }, {
           name: 'Joined At',
           value: `<t:${Math.round(Date.now() / 1000)}:F>`

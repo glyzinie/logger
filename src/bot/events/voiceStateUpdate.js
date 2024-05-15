@@ -14,10 +14,10 @@ module.exports = {
       eventName: 'voiceStateUpdate',
       embeds: [{
         author: {
-          name: `${member.username}#${member.discriminator} ${member.nick ? `(${member.nick})` : ''}`,
+          name: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`} ${member.nick ? `(${member.nick})` : ''}`,
           icon_url: member.avatarURL
         },
-        description: `**${member.username}#${member.discriminator}** ${member.nick ? `(${member.nick})` : ''} had their voice state updated.`,
+        description: `**${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}** ${member.nick ? `(${member.nick})` : ''} had their voice state updated.`,
         fields: [{
           name: 'Voice Channel',
           value: `<#${channel.id}> (${channel.name})`
@@ -43,7 +43,7 @@ module.exports = {
     if (user && user.id && user.username) {
       voiceStateUpdateEvent.embeds[0].fields[voiceStateUpdateEvent.embeds[0].fields.length - 1].value += `Perpetrator = ${user.id}\`\`\``
       voiceStateUpdateEvent.embeds[0].footer = {
-        text: `${user.username}#${user.discriminator}`,
+        text: `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`}`,
         icon_url: user.avatarURL
       }
     }

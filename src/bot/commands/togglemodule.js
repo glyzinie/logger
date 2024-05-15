@@ -15,7 +15,7 @@ module.exports = {
             text: `${global.bot.user.username}#${global.bot.user.discriminator}`
           },
           author: {
-            name: `${message.author.username}#${message.author.discriminator}`,
+            name: `${message.author.username}${message.author.discriminator === '0' ? '' : `#${message.author.discriminator}`}`,
             icon_url: message.author.avatarURL
           }
         }]
@@ -33,14 +33,14 @@ module.exports = {
           text: `${global.bot.user.username}#${global.bot.user.discriminator}`
         },
         author: {
-          name: `${message.author.username}#${message.author.discriminator}`,
+          name: `${message.author.username}${message.author.discriminator === '0' ? '' : `#${message.author.discriminator}`}`,
           icon_url: message.author.avatarURL
         }
       }]
     })
   },
   name: 'togglemodule',
-  quickHelp: `[DEPRECATED]\nIgnore any event provided after this command. You should have no need for this command when you can stop an event from logging by using ${process.env.GLOBAL_BOT_PREFIX}stoplogging or by signing into [the dashboard](https://logger.bot).`,
+  quickHelp: `[DEPRECATED]\nIgnore any event provided after this command. You should have no need for this command when you can stop an event from logging by using ${process.env.GLOBAL_BOT_PREFIX}stoplogging.`,
   examples: 'Unneccesary, this command is deprecated.',
   type: 'custom',
   perm: 'manageChannels',

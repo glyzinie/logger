@@ -171,15 +171,15 @@ module.exports = {
             }
             if (newOverwrite.json.hasOwnProperty(perm) && oldOverwrite.json.hasOwnProperty(perm)) {
               if (newOverwrite.json[perm] === true && oldOverwrite.json[perm] === false) {
-                fields[counter].value += `\n${canUseExternal(channel.guild) ? '<:onswitch:827651433750855710>' : 'ALLOW'} ${perm}`
+                fields[counter].value += `\n${canUseExternal(channel.guild) ? '<:onswitch:1223589267398328402>' : 'ALLOW'} ${perm}`
               } else if (newOverwrite.json[perm] === false && oldOverwrite.json[perm] === true) {
-                fields[counter].value += `\n${canUseExternal(channel.guild) ? '<:offswitch:827651237293981736>' : 'DENY'} ${perm}`
+                fields[counter].value += `\n${canUseExternal(channel.guild) ? '<:offswitch:1223589245827154082>' : 'DENY'} ${perm}`
               }
             } else if (newOverwrite.json.hasOwnProperty(perm) && !oldOverwrite.json.hasOwnProperty(perm)) {
               if (newOverwrite.json[perm]) {
-                fields[counter].value += `\n${canUseExternal(channel.guild) ? '<:onswitch:827651433750855710>' : 'ALLOW'} ${perm}`
+                fields[counter].value += `\n${canUseExternal(channel.guild) ? '<:onswitch:1223589267398328402>' : 'ALLOW'} ${perm}`
               } else {
-                fields[counter].value += `\n${canUseExternal(channel.guild) ? '<:offswitch:827651237293981736>' : 'DENY'} ${perm}`
+                fields[counter].value += `\n${canUseExternal(channel.guild) ? '<:offswitch:1223589245827154082>' : 'DENY'} ${perm}`
               }
             } else if (!newOverwrite.json.hasOwnProperty(perm) && oldOverwrite.json.hasOwnProperty(perm)) {
               fields[counter].value += `\n⚖️ neutral/inherit ${perm}`
@@ -202,7 +202,7 @@ module.exports = {
     }
 
     if (log && user) {
-      channelUpdateEvent.embeds[0].author.name = `${user.username}#${user.discriminator}`
+      channelUpdateEvent.embeds[0].author.name = `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`}`
       channelUpdateEvent.embeds[0].author.icon_url = user.avatarURL
       if (channel.type === 13) {
         channelUpdateEvent.embeds[0].description = `Stage Channel **${channel.name}** was ${channel.topic === null ? 'closed' : 'opened'}`

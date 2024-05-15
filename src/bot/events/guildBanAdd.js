@@ -9,13 +9,13 @@ module.exports = {
       eventName: 'guildBanAdd',
       embeds: [{
         author: {
-          name: `${user.username}#${user.discriminator} `,
+          name: `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`}`,
           icon_url: user.avatarURL
         },
-        description: `${user.username}#${user.discriminator} was banned`,
+        description: `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`} was banned`,
         fields: [{
           name: 'User Information',
-          value: `${user.username}#${user.discriminator} (${user.id}) ${user.mention} ${user.bot ? '\nIs a bot' : ''}`
+          value: `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`} (${user.id}) ${user.mention} ${user.bot ? '\nIs a bot' : ''}`
         }, {
           name: 'Reason',
           value: 'None provided'
@@ -50,7 +50,7 @@ module.exports = {
       if (log.reason) guildBanAddEvent.embeds[0].fields[1].value = log.reason
       guildBanAddEvent.embeds[0].fields[2].value = `\`\`\`ini\nUser = ${user.id}\nPerpetrator = ${perp.id}\`\`\``
       guildBanAddEvent.embeds[0].footer = {
-        text: `${perp.username}#${perp.discriminator}`,
+        text: `${perp.username}${perp.discriminator === '0' ? '' : `#${perp.discriminator}`}`,
         icon_url: perp.avatarURL
       }
       await send(guildBanAddEvent)

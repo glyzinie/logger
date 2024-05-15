@@ -15,7 +15,7 @@ module.exports = {
         this.send(logID)
       }, 10000)
     }
-    this.cache[logID].list += `\n${member.username}#${member.discriminator} (${member.id})`
+    this.cache[logID].list += `\n${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`} (${member.id})`
     this.cache[logID].count++
   },
   async send (logID) {

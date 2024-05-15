@@ -26,7 +26,7 @@ module.exports = {
         value: `${guild.verificationLevel}`
       }, {
         name: 'Owner',
-        value: `${owner ? `**${owner.username}#${owner.discriminator}** ` : ''}(${guild.ownerID})`
+        value: `${owner ? `**${owner.username}${owner.discriminator === '0' ? '' : `#${owner.discriminator}`}** ` : ''}(${guild.ownerID})`
       }, {
         name: 'Features',
         value: guild.features.length !== 0 ? guild.features.join(', ') : 'No Guild Features'

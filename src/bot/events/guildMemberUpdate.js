@@ -25,10 +25,10 @@ module.exports = {
       eventName: 'guildMemberUpdate',
       embeds: [{
         author: {
-          name: `${member.username}#${member.discriminator}`,
+          name: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}`,
           icon_url: member.avatarURL
         },
-        description: `${member.username}#${member.discriminator} ${member.mention} ${member.nick ? `(${member.nick})` : ''} was updated`,
+        description: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`} ${member.mention} ${member.nick ? `(${member.nick})` : ''} was updated`,
         fields: [{
           name: 'Changes',
           value: 'Unknown. Look at the footer to see who updated the affected user.'
@@ -45,11 +45,11 @@ module.exports = {
       delete guildMemberUpdate.author
       guildMemberUpdate.embeds[0].fields[0] = {
         name: 'New Name',
-        value: `${member.nick ? member.nick : member.username}#${member.discriminator}`
+        value: `${member.nick ? member.nick : member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}`
       }
       guildMemberUpdate.embeds[0].fields.push({
         name: 'Old Name',
-        value: `${oldMember.nick ? oldMember.nick : member.username}#${member.discriminator}`
+        value: `${oldMember.nick ? oldMember.nick : member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}`
       })
       guildMemberUpdate.embeds[0].fields.push({
         name: 'ID',
@@ -59,9 +59,9 @@ module.exports = {
       await send(guildMemberUpdate)
     } else if (oldMember?.pending && !member.pending && guild.features.includes('MEMBER_VERIFICATION_GATE_ENABLED')) {
       guildMemberUpdate.eventName = 'guildMemberVerify'
-      guildMemberUpdate.embeds[0].description = `${member.mention} (${member.username}#${member.discriminator}: \`${member.id}\`) has verified.`
+      guildMemberUpdate.embeds[0].description = `${member.mention} (${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}: \`${member.id}\`) has verified.`
       guildMemberUpdate.embeds[0].author = {
-        name: `${member.username}#${member.discriminator}`,
+        name: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}`,
         icon_url: member.avatarURL
       }
       guildMemberUpdate.embeds[0].color = 0x1ced9a
@@ -77,7 +77,7 @@ module.exports = {
       embedCopy.eventName = 'guildMemberBoostUpdate'
       embedCopy.embeds[0].description = `${member.mention} has ${newMemberHasBoostRole ? 'boosted' : 'stopped boosting'} the server.`
       embedCopy.embeds[0].author = {
-        name: `${member.username}#${member.discriminator}`,
+        name: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}`,
         icon_url: member.avatarURL
       }
       embedCopy.embeds[0].color = member.premiumSince ? 0x15cc12 : 0xeb4034
@@ -113,14 +113,14 @@ module.exports = {
       // Add a + or - emoji when roles are manipulated for a user, stringify it, and assign a field value to it.
       guildMemberUpdate.embeds[0].fields = [{
         name: 'Changes',
-        value: `${added.map(role => `${canUseExternal(guild) ? '<:greenplus:562826499929931776>' : '➕'} **${role.name}**`).join('\n')}${removed.map((role, i) => `${i === 0 && added.length !== 0 ? '\n' : ''}\n:x: **${role.name}**`).join('\n')}`
+        value: `${added.map(role => `${canUseExternal(guild) ? '<:greenplus:1223588616786415646>' : '➕'} **${role.name}**`).join('\n')}${removed.map((role, i) => `${i === 0 && added.length !== 0 ? '\n' : ''}\n:x: **${role.name}**`).join('\n')}`
       }]
       if (guildMemberUpdate.embeds[0].fields[0].value.length > 1000) {
         guildMemberUpdate.embeds[0].fields[0].value = guildMemberUpdate.embeds[0].fields[0].value.substring(0, 1020) + '...'
       }
       guildMemberUpdate.embeds[0].color = roleColor
       guildMemberUpdate.embeds[0].footer = {
-        text: `${user.username}#${user.discriminator}`,
+        text: `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`}`,
         icon_url: user.avatarURL
       }
       guildMemberUpdate.embeds[0].fields.push({
@@ -130,19 +130,19 @@ module.exports = {
       if (!guildMemberUpdate.embeds[0].fields[0].value) return
       await send(guildMemberUpdate)
     } else if (possibleTimeoutLog) {
-      guildMemberUpdate.embeds[0].description = `${member.username}#${member.discriminator} (${member.mention}) ${member.communicationDisabledUntil ? 'was timed out' : 'had their timeout removed'}`
+      guildMemberUpdate.embeds[0].description = `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`} (${member.mention}) ${member.communicationDisabledUntil ? 'was timed out' : 'had their timeout removed'}`
       guildMemberUpdate.embeds[0].author = {
-        name: `${member.username}#${member.discriminator}`,
+        name: `${member.username}${member.discriminator === '0' ? '' : `#${member.discriminator}`}`,
         icon_url: member.avatarURL
       }
       guildMemberUpdate.embeds[0].footer = {
-        text: `${possibleTimeoutLog.user.username}#${possibleTimeoutLog.user.discriminator}`,
+        text: `${possibleTimeoutLog.user.username}${possibleTimeoutLog.user.discriminator === '0' ? '' : `#${possibleTimeoutLog.user.discriminator}`}`,
         icon_url: possibleTimeoutLog.user.avatarURL
       }
       guildMemberUpdate.embeds[0].fields = []
       guildMemberUpdate.embeds[0].fields.push({
         name: 'Timeout Creator',
-        value: `${possibleTimeoutLog.user.username}#${possibleTimeoutLog.user.discriminator}`
+        value: `${possibleTimeoutLog.user.username}${possibleTimeoutLog.user.discriminator === '0' ? '' : `#${possibleTimeoutLog.user.discriminator}`}`
       })
       if (possibleTimeoutLog.reason) {
         guildMemberUpdate.embeds[0].fields.push({

@@ -69,7 +69,7 @@ module.exports = {
       if (log && log.user) { // if the audit log is less than 3 seconds off
         const user = log.user
         guildEmojisUpdateEvent.embeds[0].author = {
-          name: `${user.username}#${user.discriminator}`,
+          name: `${user.username}${user.discriminator === '0' ? '' : `#${user.discriminator}`}`,
           icon_url: user.avatarURL
         }
         guildEmojisUpdateEvent.embeds[0].fields[1].value = `\`\`\`ini\nUser = ${user.id}\nEmoji = ${emoji.id}\`\`\``
